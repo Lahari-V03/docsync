@@ -42,7 +42,11 @@ def run():
                 content_hash, created_at, updated_at
             )
             VALUES (%s, %s, %s, %s, %s, %s, %s)
-            ON CONFLICT (content_hash) DO NOTHING
+            ON CONFLICT (source_type, source_id) DO UPDATE SET
+            raw_text     = EXCLUDED.raw_text,
+            metadata     = EXCLUDED.metadata,
+            content_hash = EXCLUDED.content_hash,
+            updated_at   = EXCLUDED.updated_at
             """,
             ("json_export", record["id"], raw_text, metadata, content_hash, now, now),
         )

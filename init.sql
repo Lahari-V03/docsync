@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS documents (
   raw_text      TEXT,
   metadata      JSONB,
   content_hash  TEXT      UNIQUE,
+  embedding     vector(384),
   created_at    TIMESTAMP,
-  updated_at    TIMESTAMP
+  updated_at    TIMESTAMP,
+  CONSTRAINT unique_source UNIQUE (source_type, source_id)
 );
